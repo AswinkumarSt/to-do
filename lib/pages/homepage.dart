@@ -1,9 +1,19 @@
+
 import 'package:flutter/material.dart';
 import 'package:todoapp/util/todo_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
+   const_addTask(){
+    return Container(
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: "Add Task",
+          border: OutlineInputBorder(),
+        ),
+      ),
+    )
+  }
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -12,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       backgroundColor: Colors.yellow[200],
       appBar: AppBar(
         backgroundColor: Colors.amber,
@@ -45,16 +56,11 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),  
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
-        child: Icon(
-          Icons.add
-          ),
-        backgroundColor: Colors.white,
-        elevation: 10,
-      ),   
+      floatingActionButton: FloatingActionButton(onPressed:() {
+        
+      },
+      child:const Icon(Icons.add),
+      ),
     );
   }
 }
