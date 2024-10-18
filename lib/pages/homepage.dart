@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
+
           ToDoTile(
             taskName: "learn Dart",
             taskCompleted: true,
@@ -43,7 +44,17 @@ class _HomePageState extends State<HomePage> {
             },
           ),
         ],
-      ),
+      ),  
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        child: Icon(
+          Icons.add
+          ),
+        backgroundColor: Colors.white,
+        elevation: 10,
+      ),   
     );
   }
 }
