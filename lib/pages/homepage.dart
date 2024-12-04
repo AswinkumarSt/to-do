@@ -1,65 +1,95 @@
-
 import 'package:flutter/material.dart';
-import 'package:todoapp/util/todo_tile.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-   const_addTask(){
-    return Container(
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: "Add Task",
-          border: OutlineInputBorder(),
-        ),
-      ),
-    )
-  }
-  @override
-  State<HomePage> createState() => _HomePageState();
+void main() {
+  runApp(TodoApp());
 }
 
-class _HomePageState extends State<HomePage> {
+class TodoApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'To-Do List',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: TodoListPage(),
+    );
+  }
+}
+
+class TodoListPage extends StatefulWidget {
+  @override
+  _TodoListPageState createState() => _TodoListPageState();
+}
+
+class _TodoListPageState extends State<TodoListPage> {
+  final List<String> _tasks = [];
+  final TextEditingController _taskController = TextEditingController();
+
+  void _addTask() {
+    String task = _taskController.text.trim();
+    if (task.isNotEmpty) {
+      setState(() {
+        _tasks.add(task);
+      });
+      _taskController.clear();
+    }
+  }
+
+  void _removeTask(int index) {
+    setState(() {
+      _tasks.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      backgroundColor: Colors.yellow[200],
       appBar: AppBar(
-        backgroundColor: Colors.amber,
-        title: Text("TO DO"),
-        elevation: 0,
-        centerTitle: true,
+        title: Text('To-Do List'),
       ),
-      body: ListView(
+      body: Column(
         children: [
-
-          ToDoTile(
-            taskName: "learn Dart",
-            taskCompleted: true,
-            onChanged: (p0) {
-              
-            },
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _taskController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter a task',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: _addTask,
+                  child: Text('Add'),
+                ),
+              ],
+            ),
           ),
-          ToDoTile(
-            taskName: "Excercise dart",
-            taskCompleted: false,
-            onChanged: (p0) {
-              
-            },
-          ),
-          ToDoTile(
-            taskName: "test Dart",
-            taskCompleted: false,
-            onChanged: (p0) {
-              
-            },
+          Expanded(
+            child: ListView.builder(
+              itemCount: _tasks.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: ListTile(
+                    title: Text(_tasks[index]),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => _removeTask(index),
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         ],
-      ),  
-      floatingActionButton: FloatingActionButton(onPressed:() {
-        
-      },
-      child:const Icon(Icons.add),
       ),
     );
   }
